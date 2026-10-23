@@ -2,10 +2,10 @@ import React from 'react';
 import { ArrowRight, ArrowLeft } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
-// 1. Import the local images directly from the assets folder using the exact new names
-import socialMediaImg from '../assets/socialmediamanagement.jpg';
-import creativeProductionImg from '../assets/creativeproduction.jpg';
-import businessSolutionsImg from '../assets/business.solutions.jpg';
+// 1. Import the local PNG images directly from the assets folder
+import socialMediaImg from '../assets/socialmediamanagement.png';
+import creativeProductionImg from '../assets/creativeproduction.png';
+import businessSolutionsImg from '../assets/business.solutions.png';
 
 interface OurServicesSectionProps {
   onNavigate?: (
