@@ -14,6 +14,13 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
+// 1. Import local images from the assets folder
+import designImg from '../assets/design.png';
+import brandingImg from '../assets/branding.png';
+import photographyImg from '../assets/photography.png';
+import videoImg from '../assets/video.png';
+import contentImg from '../assets/content.png';
+
 interface CreativeProductionPageProps {
   onNavigate: (page: PageType, hash?: string) => void;
   onOpenContact: () => void;
@@ -42,8 +49,7 @@ const CREATIVE_SERVICES: CreativeService[] = [
     descKey: 'creativePage.services.design.description',
     deliverablesKey: 'creativePage.services.design.deliverables',
     icon: Layers,
-    defaultImageUrl:
-      'https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?auto=format&fit=crop&w=1400&q=80',
+    defaultImageUrl: designImg,
     imageAlt: 'Whislly High-End Graphic Design and Motion Graphics Workspace',
   },
   {
@@ -55,8 +61,7 @@ const CREATIVE_SERVICES: CreativeService[] = [
     descKey: 'creativePage.services.branding.description',
     deliverablesKey: 'creativePage.services.branding.deliverables',
     icon: Palette,
-    defaultImageUrl:
-      'https://images.unsplash.com/photo-1600132806370-bf17e65e942f?auto=format&fit=crop&w=1400&q=80',
+    defaultImageUrl: brandingImg,
     imageAlt: 'Whislly Brand Architecture and Visual Identity Showcase',
   },
   {
@@ -68,8 +73,7 @@ const CREATIVE_SERVICES: CreativeService[] = [
     descKey: 'creativePage.services.photography.description',
     deliverablesKey: 'creativePage.services.photography.deliverables',
     icon: Camera,
-    defaultImageUrl:
-      'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1400&q=80',
+    defaultImageUrl: photographyImg,
     imageAlt: 'Whislly Commercial and High-Ticket Food Photography Studio',
   },
   {
@@ -81,8 +85,7 @@ const CREATIVE_SERVICES: CreativeService[] = [
     descKey: 'creativePage.services.video.description',
     deliverablesKey: 'creativePage.services.video.deliverables',
     icon: Film,
-    defaultImageUrl:
-      'https://images.unsplash.com/photo-1579632652768-6cb9dcf85912?auto=format&fit=crop&w=1400&q=80',
+    defaultImageUrl: videoImg,
     imageAlt: 'Whislly Cinematic Commercial Shoots and Video Editing Suite',
   },
   {
@@ -94,8 +97,7 @@ const CREATIVE_SERVICES: CreativeService[] = [
     descKey: 'creativePage.services.content.description',
     deliverablesKey: 'creativePage.services.content.deliverables',
     icon: PenTool,
-    defaultImageUrl:
-      'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1400&q=80',
+    defaultImageUrl: contentImg,
     imageAlt: 'Whislly Content Strategy and Strategic Copywriting Suite',
   },
 ];
@@ -109,14 +111,26 @@ export const CreativeProductionPage: React.FC<CreativeProductionPageProps> = ({
   return (
     <div className="w-full bg-white text-neutral-900 selection:bg-neutral-900 selection:text-white text-start">
       {/* =========================================================================
-          1. HERO SECTION: Full width, deep padding, typography-focused aesthetic
+          1. HERO SECTION
           ========================================================================= */}
       <section className="relative w-full py-20 sm:py-28 lg:py-32 bg-neutral-950 text-white overflow-hidden border-b border-neutral-800">
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-40 pointer-events-none"
+        >
+          <source 
+            src="https://cdn.pixabay.com/video/2020/05/26/40248-425268481_large.mp4" 
+            type="video/mp4" 
+          />
+        </video>
+
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-amber-500/20 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-0 left-10 w-96 h-96 bg-blue-500/20 rounded-full blur-[100px] pointer-events-none" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
-          {/* Breadcrumb / Navigation Kicker */}
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-6">
             <button
               onClick={() => onNavigate('home', 'services')}
@@ -143,15 +157,15 @@ export const CreativeProductionPage: React.FC<CreativeProductionPageProps> = ({
             </p>
 
             <div className="pt-4 flex flex-wrap items-center gap-4 text-xs sm:text-sm text-neutral-400">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-neutral-900 border border-neutral-800 text-neutral-300">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-neutral-200">
                 <Sparkles className="w-3.5 h-3.5 text-amber-400" />
                 {t('creativePage.disciplines', '5 Core Disciplines')}
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-neutral-900 border border-neutral-800 text-neutral-300">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-neutral-200">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                 {t('creativePage.facilities', 'In-House Studio Facilities')}
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-neutral-900 border border-neutral-800 text-neutral-300">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-neutral-200">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                 {t('creativePage.delivery', 'End-to-End Asset Delivery')}
               </span>
@@ -161,7 +175,7 @@ export const CreativeProductionPage: React.FC<CreativeProductionPageProps> = ({
       </section>
 
       {/* =========================================================================
-          2. SERVICES SHOWCASE: Alternating "Zigzag" Layout for the 5 Services
+          2. SERVICES SHOWCASE: Alternating "Zigzag" Layout
           ========================================================================= */}
       <section className="py-20 sm:py-28 lg:py-36 bg-neutral-50/50">
         <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-24 sm:space-y-32 lg:space-y-40">
@@ -174,7 +188,6 @@ export const CreativeProductionPage: React.FC<CreativeProductionPageProps> = ({
             const focus = t(service.focusKey, '');
             const description = t(service.descKey, '');
 
-            // Deliverables fallback list
             const enDeliverablesMap: Record<string, string[]> = {
               design: ['Digital & Print Graphics', 'Motion Graphics', 'Social Media Assets', 'Marketing Collateral'],
               branding: ['Logo Design', 'Brand Guidelines', 'Typography & Color Systems'],
@@ -192,7 +205,6 @@ export const CreativeProductionPage: React.FC<CreativeProductionPageProps> = ({
 
             const deliverables = isRTL ? arDeliverablesMap[service.id] : enDeliverablesMap[service.id];
 
-            // Reusable Image Component to place uniquely for Mobile vs Desktop
             const ServiceImage = () => (
               <div className="relative group overflow-hidden rounded-2xl sm:rounded-3xl shadow-xl border border-neutral-200/90 bg-neutral-900 w-full">
                 <div className="relative aspect-video sm:aspect-[4/3] w-full overflow-hidden">
@@ -226,10 +238,8 @@ export const CreativeProductionPage: React.FC<CreativeProductionPageProps> = ({
                   isReversed ? 'md:flex-row-reverse' : 'md:flex-row'
                 } md:items-center gap-0 md:gap-14 lg:gap-20`}
               >
-                {/* Text Content Column */}
                 <div className="w-full md:w-1/2 flex flex-col">
                   
-                  {/* Top part: Kicker, Title, Subtitle */}
                   <div className="space-y-6">
                     <div className="flex items-center gap-3">
                       <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-neutral-900 text-white font-mono text-xs font-bold shadow-sm">
@@ -250,12 +260,10 @@ export const CreativeProductionPage: React.FC<CreativeProductionPageProps> = ({
                     </div>
                   </div>
 
-                  {/* Mobile Image: Visible only on mobile, placed exactly after the subtitle */}
                   <div className="block md:hidden my-8 w-full">
                     <ServiceImage />
                   </div>
 
-                  {/* Bottom part: Description, Deliverables, Action */}
                   <div className="space-y-6 mt-0 md:mt-6">
                     <p className="text-base sm:text-lg text-neutral-600 leading-relaxed">
                       {description}
@@ -296,7 +304,6 @@ export const CreativeProductionPage: React.FC<CreativeProductionPageProps> = ({
                   </div>
                 </div>
 
-                {/* Desktop Image Column: Hidden on Mobile */}
                 <div className="hidden md:block w-full md:w-1/2">
                   <ServiceImage />
                 </div>
@@ -307,7 +314,7 @@ export const CreativeProductionPage: React.FC<CreativeProductionPageProps> = ({
       </section>
 
       {/* =========================================================================
-          3. CALL TO ACTION: Centered, striking block at the bottom
+          3. CALL TO ACTION
           ========================================================================= */}
       <section className="py-20 sm:py-28 lg:py-32 bg-neutral-950 text-white relative overflow-hidden border-t border-neutral-800">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-neutral-800/40 rounded-full blur-[120px] pointer-events-none" />
