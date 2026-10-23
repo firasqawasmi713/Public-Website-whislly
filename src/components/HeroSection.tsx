@@ -25,16 +25,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
       id="hero-section"
       className="relative w-full min-h-[80vh] flex flex-col justify-center overflow-hidden bg-neutral-950"
     >
-      {/* Background Video */}
+      {/* Background Video - Fixed for React/Vite deployment */}
       <video
+        src={heroVideo}
         autoPlay
         loop
         muted
         playsInline
         className="absolute inset-0 w-full h-full object-cover"
-      >
-        <source src={heroVideo} type="video/mp4" />
-      </video>
+      />
 
       {/* Readability Overlay: Dark gradient and tint directly over the video behind text */}
       <div
