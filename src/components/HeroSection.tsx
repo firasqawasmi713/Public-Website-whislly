@@ -88,4 +88,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
 
             <button
               onClick={() => onNavigate('social-media')}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold text-white bg-white/10 hover:bg-white/20 border border-white/
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold text-white bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl backdrop-blur-sm active:scale-[0.98] transition-all duration-150 cursor-pointer"
+            >
+              <span>{t('hero.viewPlans', 'View Social Media Plans')}</span>
+              <ArrowUpRight className={`w-4 h-4 text-neutral-300 ${isRTL ? 'rotate-[-90deg]' : ''}`} />
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
