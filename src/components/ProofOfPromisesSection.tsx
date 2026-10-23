@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { ProofItem } from '../types';
-import { VisualShowcaseAsset } from './VisualShowcaseAsset';
 import { ShowcaseModal } from './ShowcaseModal';
 import { useLanguage } from '../context/LanguageContext';
+
+// 1. Import your local case study images
+import foodAppsImg from '../assets/Food Apps Menu Photography.png';
+import socialCampaignImg from '../assets/socialmediacampaign.png';
+import brandingSolutionsImg from '../assets/businesssolutions.png';
 
 interface ProofOfPromisesSectionProps {
   onSelectService?: (serviceName: string) => void;
@@ -13,6 +17,13 @@ export const ProofOfPromisesSection: React.FC<ProofOfPromisesSectionProps> = ({
 }) => {
   const { t, isRTL } = useLanguage();
   const [selectedProof, setSelectedProof] = useState<ProofItem | null>(null);
+
+  // 2. Create a mapping to easily grab the right image for the right card
+  const proofImages: Record<string, string> = {
+    'food-apps': foodAppsImg,
+    'social-campaign': socialCampaignImg,
+    'branding-solutions': brandingSolutionsImg,
+  };
 
   const proofItems: ProofItem[] = [
     {
@@ -96,11 +107,12 @@ export const ProofOfPromisesSection: React.FC<ProofOfPromisesSectionProps> = ({
               className="group bg-neutral-50 rounded-2xl border border-neutral-200 overflow-hidden flex flex-col justify-between hover:border-neutral-400 hover:shadow-xl transition-all duration-300 cursor-pointer text-start"
             >
               <div>
-                {/* Visual Preview Container: strict 1:1 square ratio */}
+                {/* 3. Replaced VisualShowcaseAsset with standard local image */}
                 <div className="w-full aspect-square border-b border-neutral-200 overflow-hidden bg-neutral-950">
-                  <VisualShowcaseAsset
-                    type={item.visualType}
-                    className="w-full h-full aspect-square group-hover:scale-[1.02] transition-transform duration-500"
+                  <img
+                    src={proofImages[item.id]}
+                    alt={item.title}
+                    className="w-full h-full aspect-square object-cover group-hover:scale-[1.02] transition-transform duration-500"
                   />
                 </div>
 
