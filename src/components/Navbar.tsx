@@ -31,7 +31,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           className="flex items-center text-left group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 rounded-lg p-1"
           aria-label="Whislly Home"
         >
-          <span className="text-xl font-bold tracking-tight text-neutral-900 group-hover:text-neutral-700 transition-colors font-display">
+          <span className="text-3xl font-extrabold tracking-tight text-neutral-900 group-hover:text-neutral-700 transition-colors font-display">
             Whislly
           </span>
         </button>
