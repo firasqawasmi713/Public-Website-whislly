@@ -192,103 +192,113 @@ export const CreativeProductionPage: React.FC<CreativeProductionPageProps> = ({
 
             const deliverables = isRTL ? arDeliverablesMap[service.id] : enDeliverablesMap[service.id];
 
+            // Reusable Image Component to place uniquely for Mobile vs Desktop
+            const ServiceImage = () => (
+              <div className="relative group overflow-hidden rounded-2xl sm:rounded-3xl shadow-xl border border-neutral-200/90 bg-neutral-900 w-full">
+                <div className="relative aspect-video sm:aspect-[4/3] w-full overflow-hidden">
+                  <img
+                    src={service.defaultImageUrl}
+                    alt={service.imageAlt}
+                    loading="lazy"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+                  <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between text-white z-10">
+                    <div className="flex items-center gap-2.5 bg-neutral-950/75 backdrop-blur-md px-3.5 py-2 rounded-xl border border-white/10 text-xs">
+                      <IconComponent className="w-4 h-4 text-amber-400" />
+                      <span className="font-semibold tracking-wide">
+                        {title} {t('creativePage.suite', 'Suite')}
+                      </span>
+                    </div>
+                    <span className="font-mono text-xs text-white/80 bg-neutral-950/60 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-white/10">
+                      Whislly · 2026
+                    </span>
+                  </div>
+                </div>
+              </div>
+            );
+
             return (
               <article
                 key={service.id}
                 id={service.id}
                 className={`flex flex-col ${
                   isReversed ? 'md:flex-row-reverse' : 'md:flex-row'
-                } items-center gap-10 md:gap-14 lg:gap-20`}
+                } md:items-center gap-0 md:gap-14 lg:gap-20`}
               >
                 {/* Text Content Column */}
-                <div className="w-full md:w-1/2 space-y-6">
-                  {/* Category & Section Index Kicker */}
-                  <div className="flex items-center gap-3">
-                    <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-neutral-900 text-white font-mono text-xs font-bold shadow-sm">
-                      {service.letter}
-                    </span>
-                    <span className="text-xs font-semibold uppercase tracking-wider text-neutral-500">
-                      {category}
-                    </span>
-                  </div>
-
-                  {/* Service Title */}
-                  <div className="space-y-2">
-                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-neutral-950 font-display">
-                      {title}
-                    </h2>
-                    <p className="text-sm font-medium text-neutral-500 italic">
-                      {focus}
-                    </p>
-                  </div>
-
-                  {/* Description Paragraph */}
-                  <p className="text-base sm:text-lg text-neutral-600 leading-relaxed">
-                    {description}
-                  </p>
-
-                  {/* Deliverables Bullet List */}
-                  <div className="pt-2 space-y-3">
-                    <div className="text-xs font-bold uppercase tracking-wider text-neutral-900">
-                      {t('creativePage.coreDeliverables', 'Core Deliverables')}
-                    </div>
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                      {deliverables.map((item, idx) => (
-                        <li
-                          key={idx}
-                          className="flex items-center gap-2.5 text-sm font-medium text-neutral-700 bg-white border border-neutral-200/80 rounded-xl px-3.5 py-2.5 shadow-xs"
-                        >
-                          <CheckCircle2 className="w-4 h-4 text-neutral-900 shrink-0" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Contextual Action Link */}
-                  <div className="pt-4">
-                    <button
-                      onClick={onOpenContact}
-                      className="inline-flex items-center gap-2 text-sm font-semibold text-neutral-900 hover:text-neutral-700 group cursor-pointer"
-                    >
-                      <span>
-                        {t('creativePage.inquireAbout', 'Inquire about')} {title}
+                <div className="w-full md:w-1/2 flex flex-col">
+                  
+                  {/* Top part: Kicker, Title, Subtitle */}
+                  <div className="space-y-6">
+                    <div className="flex items-center gap-3">
+                      <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-neutral-900 text-white font-mono text-xs font-bold shadow-sm">
+                        {service.letter}
                       </span>
-                      {isRTL ? (
-                        <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                      ) : (
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                      )}
-                    </button>
+                      <span className="text-xs font-semibold uppercase tracking-wider text-neutral-500">
+                        {category}
+                      </span>
+                    </div>
+
+                    <div className="space-y-2">
+                      <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-neutral-950 font-display">
+                        {title}
+                      </h2>
+                      <p className="text-sm font-medium text-neutral-500 italic">
+                        {focus}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Mobile Image: Visible only on mobile, placed exactly after the subtitle */}
+                  <div className="block md:hidden my-8 w-full">
+                    <ServiceImage />
+                  </div>
+
+                  {/* Bottom part: Description, Deliverables, Action */}
+                  <div className="space-y-6 mt-0 md:mt-6">
+                    <p className="text-base sm:text-lg text-neutral-600 leading-relaxed">
+                      {description}
+                    </p>
+
+                    <div className="pt-2 space-y-3">
+                      <div className="text-xs font-bold uppercase tracking-wider text-neutral-900">
+                        {t('creativePage.coreDeliverables', 'Core Deliverables')}
+                      </div>
+                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        {deliverables.map((item, idx) => (
+                          <li
+                            key={idx}
+                            className="flex items-center gap-2.5 text-sm font-medium text-neutral-700 bg-white border border-neutral-200/80 rounded-xl px-3.5 py-2.5 shadow-xs"
+                          >
+                            <CheckCircle2 className="w-4 h-4 text-neutral-900 shrink-0" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="pt-4">
+                      <button
+                        onClick={onOpenContact}
+                        className="inline-flex items-center gap-2 text-sm font-semibold text-neutral-900 hover:text-neutral-700 group cursor-pointer"
+                      >
+                        <span>
+                          {t('creativePage.inquireAbout', 'Inquire about')} {title}
+                        </span>
+                        {isRTL ? (
+                          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                        ) : (
+                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        )}
+                      </button>
+                    </div>
                   </div>
                 </div>
 
-                {/* Image Showcase Column */}
-                <div className="w-full md:w-1/2">
-                  <div className="relative group overflow-hidden rounded-2xl sm:rounded-3xl shadow-xl border border-neutral-200/90 bg-neutral-900">
-                    <div className="relative aspect-video sm:aspect-[4/3] w-full overflow-hidden">
-                      <img
-                        src={service.defaultImageUrl}
-                        alt={service.imageAlt}
-                        loading="lazy"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                      />
-
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
-
-                      <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between text-white z-10">
-                        <div className="flex items-center gap-2.5 bg-neutral-950/75 backdrop-blur-md px-3.5 py-2 rounded-xl border border-white/10 text-xs">
-                          <IconComponent className="w-4 h-4 text-amber-400" />
-                          <span className="font-semibold tracking-wide">
-                            {title} {t('creativePage.suite', 'Suite')}
-                          </span>
-                        </div>
-                        <span className="font-mono text-xs text-white/80 bg-neutral-950/60 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-white/10">
-                          Whislly · 2026
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+                {/* Desktop Image Column: Hidden on Mobile */}
+                <div className="hidden md:block w-full md:w-1/2">
+                  <ServiceImage />
                 </div>
               </article>
             );
