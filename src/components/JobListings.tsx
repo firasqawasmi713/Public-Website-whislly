@@ -1,130 +1,55 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase, isSupabaseConfigured } from '../lib/supabase';
+import { supabase } from '../lib/supabase';
 import { Job } from '../types';
 import {
   MapPin,
   ArrowRight,
   ArrowLeft,
-  AlertCircle,
   RefreshCw,
-  Briefcase,
-  Sparkles,
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 const FALLBACK_JOBS_EN: Job[] = [
   {
     id: 'job-01',
-    title: 'Senior Brand & Visual Designer',
+    title: 'Graphic Designer',
     department: 'Creative & Design',
-    location: 'Amman, Jordan (Hybrid)',
-    employment_type: 'Full-time',
-    description: 'Lead visual identity systems, packaging guidelines, and client brand architectures.',
+    location: 'Amman, Jordan (Remote / Hybrid)',
+    employment_type: 'Project-based / Commission',
+    description: 'Join our creative roster to deliver high-quality visual assets, social media graphics, and brand collateral on a project-by-project basis. Highly rewarding commission structure per delivered project.',
     is_active: true,
   },
   {
     id: 'job-02',
-    title: 'Social Media Content Strategist',
-    department: 'Growth & Marketing',
-    location: 'Amman, Jordan (On-site)',
-    employment_type: 'Full-time',
-    description: 'Drive high-converting content roadmaps, reel productions, and campaign analytics.',
+    title: 'Sales Representative',
+    department: 'Growth & Sales',
+    location: 'Amman, Jordan (Field / Remote)',
+    employment_type: 'Commission-based',
+    description: 'Drive business growth by acquiring new clients for our digital marketing, technology, and production services. Enjoy a highly lucrative commission structure for every successfully closed deal.',
     is_active: true,
-  },
-  {
-    id: 'job-03',
-    title: 'Full-Stack Web Engineer',
-    department: 'Technology',
-    location: 'Amman, Jordan / Remote',
-    employment_type: 'Full-time',
-    description: 'Architect modern React/Vite interfaces, headless e-commerce, and high-performance apps.',
-    is_active: true,
-  },
-  {
-    id: 'job-04',
-    title: 'Commercial Food & Product Photographer',
-    department: 'Production Studio',
-    location: 'Amman, Jordan (On-site Studio)',
-    employment_type: 'Contract / Project-based',
-    description: 'High-end studio food photography, lighting composition, and delivery menu styling.',
-    is_active: true,
-  },
-  {
-    id: 'job-05',
-    title: 'E-Commerce Growth Manager',
-    department: 'E-Commerce Solutions',
-    location: 'Amman, Jordan (Hybrid)',
-    employment_type: 'Full-time',
-    description: 'Scale direct-to-consumer storefronts, optimize conversion funnels, and manage Meta Ads.',
-    is_active: true,
-  },
-  {
-    id: 'job-06',
-    title: 'Video Producer & Motion Animator',
-    department: 'Production Studio',
-    location: 'Amman, Jordan (On-site)',
-    employment_type: 'Full-time',
-    description: 'Produce cinematic short-form social reels, 3D typography animations, and video edits.',
-    is_active: true,
-  },
+  }
 ];
 
 const FALLBACK_JOBS_AR: Job[] = [
   {
     id: 'job-01',
-    title: 'مصمم بصري وهوية تجارية أول',
+    title: 'مصمم جرافيك',
     department: 'التصميم والإبداع',
-    location: 'عمّان، الأردن (هجين)',
-    employment_type: 'دوام كامل',
-    description: 'قيادة أنظمة الهوية البصرية، أدلة التغليف، والهندسة التصميمية للعلامات التجارية.',
+    location: 'عمّان، الأردن (عن بُعد / هجين)',
+    employment_type: 'بالقطعة / عمولة',
+    description: 'انضم إلى فريقنا الإبداعي لتصميم مواد بصرية عالية الجودة، ومحتوى لمنصات التواصل الاجتماعي، وهوية العلامات التجارية بنظام المشاريع مع نظام عمولة مجزية لكل مشروع.',
     is_active: true,
   },
   {
     id: 'job-02',
-    title: 'أخصائي واستراتيجي محتوى سوشيال ميديا',
-    department: 'التسويق والنمو',
-    location: 'عمّان، الأردن (ميداني)',
-    employment_type: 'دوام كامل',
-    description: 'إدارة خطط المحتوى عالي التحويل، إنتاج الريلز، وتحليلات الحملات الرقمية.',
+    title: 'مندوب مبيعات',
+    department: 'المبيعات والنمو',
+    location: 'عمّان، الأردن (ميداني / عن بُعد)',
+    employment_type: 'مبني على العمولة',
+    description: 'ساهم في نمو أعمالنا من خلال استقطاب عملاء جدد لخدمات التسويق الرقمي، والتكنولوجيا، والإنتاج. تمتع بنظام عمولة مجزية جداً لكل صفقة ناجحة يتم إغلاقها.',
     is_active: true,
-  },
-  {
-    id: 'job-03',
-    title: 'مطور ويب متكامل (Full-Stack)',
-    department: 'التكنولوجيا والبرمجيات',
-    location: 'عمّان، الأردن / عن بُعد',
-    employment_type: 'دوام كامل',
-    description: 'بناء واجهات React/Vite الحديثة، منصات التجارة الإلكترونية، وتطبيقات الويب عالية السرعة.',
-    is_active: true,
-  },
-  {
-    id: 'job-04',
-    title: 'مصور تجاري وقوائم طعام للمطاعم',
-    department: 'استوديو الإنتاج',
-    location: 'عمّان، الأردن (استوديو)',
-    employment_type: 'عقد / بالقطعة',
-    description: 'تصوير استوديو للأطعمة، توزيع الإضاءة الاحترافية، وتنسيق أطباق قوائم تطبيقات التوصيل.',
-    is_active: true,
-  },
-  {
-    id: 'job-05',
-    title: 'مدير نمو التجارة الإلكترونية',
-    department: 'حلول التجارة الإلكترونية',
-    location: 'عمّان، الأردن (هجين)',
-    employment_type: 'دوام كامل',
-    description: 'توسيع المتاجر الرقمية المباشرة، تحسين مسار الشراء، وإدارة إعلانات ميتا الممولة.',
-    is_active: true,
-  },
-  {
-    id: 'job-06',
-    title: 'منتج فيديو ومصمم موشن جرافيكس',
-    department: 'استوديو الإنتاج',
-    location: 'عمّان، الأردن (ميداني)',
-    employment_type: 'دوام كامل',
-    description: 'إنتاج ريلز سينمائية قصيرة، رسوم متحركة 3D، ومونتاج إعلانات تجارية ديناميكية.',
-    is_active: true,
-  },
+  }
 ];
 
 export const JobListings: React.FC = () => {
@@ -209,7 +134,7 @@ export const JobListings: React.FC = () => {
       {/* Loading State */}
       {loading && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[1, 2, 3, 4, 5, 6].map((idx) => (
+          {[1, 2].map((idx) => (
             <div
               key={idx}
               className="p-6 rounded-2xl bg-white border border-neutral-200 shadow-sm animate-pulse space-y-4"
