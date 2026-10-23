@@ -1,74 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import React from 'react';
 import { ArrowRight, ArrowLeft, ArrowUpRight } from 'lucide-react';
 import { PageType } from '../types';
 import { useLanguage } from '../context/LanguageContext';
 
+// Import the local video directly from your assets folder
+import heroVideo from '../assets/landing-page.mp4';
+
 interface HeroSectionProps {
   onNavigate: (page: PageType, hash?: string) => void;
-  bucketName?: string;
-  fileName?: string;
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({
-  onNavigate,
-  bucketName = 'brand-assets',
-  fileName = 'main-hero-bg.jpg',
-}) => {
+export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
   const { t, isRTL } = useLanguage();
-  const [bgImageUrl, setBgImageUrl] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [, setHasError] = useState<boolean>(false);
-
-  // High-fidelity editorial dark agency studio fallback to prevent broken layout
-  const fallbackBg =
-    'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2000&q=80';
-
-  useEffect(() => {
-    let isMounted = true;
-    setIsLoading(true);
-    setHasError(false);
-
-    const fetchHeroBg = async () => {
-      try {
-        const { data } = supabase.storage.from(bucketName).getPublicUrl(fileName);
-
-        if (!data?.publicUrl) {
-          throw new Error('Public URL could not be resolved from Supabase.');
-        }
-
-        const img = new Image();
-        img.src = data.publicUrl;
-
-        img.onload = () => {
-          if (isMounted) {
-            setBgImageUrl(data.publicUrl);
-            setIsLoading(false);
-          }
-        };
-
-        img.onerror = () => {
-          if (isMounted) {
-            setHasError(true);
-            setBgImageUrl(fallbackBg);
-            setIsLoading(false);
-          }
-        };
-      } catch {
-        if (isMounted) {
-          setHasError(true);
-          setBgImageUrl(fallbackBg);
-          setIsLoading(false);
-        }
-      }
-    };
-
-    fetchHeroBg();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [bucketName, fileName]);
 
   const scrollToServices = () => {
     const el = document.getElementById('services-section');
@@ -77,17 +20,23 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     }
   };
 
-  const activeBg = bgImageUrl || (!isLoading ? fallbackBg : null);
-
   return (
     <section
       id="hero-section"
-      className={`relative w-full min-h-[80vh] flex flex-col justify-center overflow-hidden bg-cover bg-center bg-no-repeat transition-colors duration-700 ${
-        isLoading ? 'bg-slate-900 animate-pulse' : 'bg-neutral-950'
-      }`}
-      style={activeBg ? { backgroundImage: `url(${activeBg})` } : undefined}
+      className="relative w-full min-h-[80vh] flex flex-col justify-center overflow-hidden bg-neutral-950"
     >
-      {/* Readability Overlay: Dark gradient and tint directly over background image behind text */}
+      {/* Background Video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+      >
+        <source src={heroVideo} type="video/mp4" />
+      </video>
+
+      {/* Readability Overlay: Dark gradient and tint directly over the video behind text */}
       <div
         className={`absolute inset-0 ${
           isRTL
@@ -139,14 +88,4 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
             <button
               onClick={() => onNavigate('social-media')}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold text-white bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl backdrop-blur-sm active:scale-[0.98] transition-all duration-150 cursor-pointer"
-            >
-              <span>{t('hero.viewPlans', 'View Social Media Plans')}</span>
-              <ArrowUpRight className={`w-4 h-4 text-neutral-300 ${isRTL ? 'rotate-[-90deg]' : ''}`} />
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold text-white bg-white/10 hover:bg-white/20 border border-white/
