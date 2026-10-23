@@ -19,11 +19,15 @@ import { BusinessSolutionsPage } from './pages/BusinessSolutionsPage';
 import { AboutUsPage } from './pages/AboutUsPage';
 import { ContactModal } from './components/ContactModal';
 import { LanguageProvider } from './context/LanguageContext';
+import { PageLoader } from './components/PageLoader';
 
 function AppContent() {
   const location = useLocation();
   const navigate = useNavigate();
   const [isContactOpen, setIsContactOpen] = useState(false);
+  
+  // Loading state for transitions
+  const [isNavigating, setIsNavigating] = useState(false);
 
   // Derive current page for header active state
   let currentPage: PageType = 'home';
@@ -55,27 +59,42 @@ function AppContent() {
   }, [location.pathname, location.hash]);
 
   const handleNavigate = (page: PageType, hashSection?: string) => {
-    if (page === 'home') {
-      if (hashSection) {
-        navigate(`/#${hashSection}`);
-      } else {
-        navigate('/');
+    // Prevent reloading if clicking the exact same page without a hash
+    if (page === currentPage && !hashSection) return;
+
+    // Trigger the loading overlay
+    setIsNavigating(true);
+
+    // Wait 600ms for the animation, then perform the actual navigation
+    setTimeout(() => {
+      if (page === 'home') {
+        if (hashSection) {
+          navigate(`/#${hashSection}`);
+        } else {
+          navigate('/');
+        }
+      } else if (page === 'social-media') {
+        navigate('/social-media');
+      } else if (page === 'creative-production') {
+        navigate('/creative-production');
+      } else if (page === 'business-solutions') {
+        navigate('/business-solutions');
+      } else if (page === 'careers') {
+        navigate('/careers');
+      } else if (page === 'about') {
+        navigate('/about');
       }
-    } else if (page === 'social-media') {
-      navigate('/social-media');
-    } else if (page === 'creative-production') {
-      navigate('/creative-production');
-    } else if (page === 'business-solutions') {
-      navigate('/business-solutions');
-    } else if (page === 'careers') {
-      navigate('/careers');
-    } else if (page === 'about') {
-      navigate('/about');
-    }
+
+      // Remove the loading overlay
+      setIsNavigating(false);
+    }, 600);
   };
 
   return (
     <div className="min-h-screen flex flex-col bg-neutral-50 text-neutral-900 font-sans selection:bg-neutral-900 selection:text-white">
+      {/* Premium Transition Loader */}
+      <PageLoader isNavigating={isNavigating} />
+
       {/* Top Navigation Bar: Sticky */}
       <Navbar
         currentPage={currentPage}
