@@ -3,21 +3,33 @@ import { ProofItem } from '../types';
 import { X, ArrowRight, ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
-// 1. Array of 10 high-quality placeholder images for the slider
+// 1. Import your 10 local images
+import img01 from '../assets/01.png';
+import img02 from '../assets/02.png';
+import img03 from '../assets/03.png';
+import img04 from '../assets/04.png';
+import img05 from '../assets/05.png';
+import img06 from '../assets/06.png';
+import img07 from '../assets/07.png';
+import img08 from '../assets/08.png';
+import img09 from '../assets/09.png';
+import img010 from '../assets/010.png';
+
+// 2. Set them in the slider array
 const SLIDER_IMAGES = [
-  'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1600132806370-bf17e65e942f?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1579632652768-6cb9dcf85912?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80',
+  img01,
+  img02,
+  img03,
+  img04,
+  img05,
+  img06,
+  img07,
+  img08,
+  img09,
+  img010,
 ];
 
-// 2. The 3D Coverflow Slider Component
+// The 3D Coverflow Slider Component
 const CoverflowSlider: React.FC<{ resetTrigger: boolean }> = ({ resetTrigger }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -78,7 +90,8 @@ const CoverflowSlider: React.FC<{ resetTrigger: boolean }> = ({ resetTrigger }) 
             <div
               key={index}
               onClick={() => setActiveIndex(index)}
-              className={`absolute w-[60%] sm:w-[50%] h-[80%] rounded-xl overflow-hidden cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${filterClass}`}
+              // Changed h-[80%] to aspect-[5/4] to enforce the strict 5:4 ratio
+              className={`absolute w-[65%] sm:w-[45%] aspect-[5/4] rounded-xl overflow-hidden cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${filterClass}`}
               style={{
                 transform: `translateX(${translateX}) scale(${scale})`,
                 zIndex: zIndex,
@@ -157,7 +170,7 @@ export const ShowcaseModal: React.FC<ShowcaseModalProps> = ({
         {/* Body */}
         <div className="p-6 overflow-y-auto space-y-6">
           
-          {/* 3. The New Coverflow Slider replaces VisualShowcaseAsset */}
+          {/* The New Coverflow Slider */}
           <CoverflowSlider resetTrigger={isOpen} />
 
           {/* Key Metric Card */}
