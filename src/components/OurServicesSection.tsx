@@ -116,12 +116,12 @@ export const OurServicesSection: React.FC<OurServicesSectionProps> = ({
                 onClick={() => handleCardClick(service.id)}
                 className="group bg-white rounded-2xl border border-neutral-200 overflow-hidden flex flex-col justify-between hover:shadow-lg transition-all duration-300 hover:border-neutral-950 cursor-pointer ring-1 ring-neutral-900/5 text-start"
               >
-                {/* 1. Top Section: 9:16 Aspect Ratio Image */}
+                {/* 1. Top Section: 16:9 Aspect Ratio Image */}
                 <div className="relative w-full overflow-hidden bg-neutral-100">
                   <img
                     src={service.image}
                     alt={service.title}
-                    className="aspect-[9/16] w-full object-cover rounded-t-2xl transition-transform duration-500 group-hover:scale-105"
+                    className="aspect-[16/9] w-full object-cover rounded-t-2xl transition-transform duration-500 group-hover:scale-105"
                   />
 
                   {/* Category Pill Tag Overlay on Image */}
