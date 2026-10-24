@@ -1,45 +1,50 @@
 import React, { useState } from 'react';
 import { ShowcaseModal } from './ShowcaseModal';
-import { Camera, Users, Zap } from 'lucide-react';
+import { Camera, Share2, Palette } from 'lucide-react';
 import { ProofItem } from '../types';
 
-// Dummy data matching your 3-card layout
+// 1. Import your local images for the cards
+import img1 from '../assets/1.png';
+import img2 from '../assets/2.png';
+import img3 from '../assets/3.png';
+
+// 2. Updated Data matching your request
 const PROMISES_DATA: ProofItem[] = [
   {
     id: '1',
-    title: 'Event-goers',
-    description: 'Use it to discover what’s happening now and share live moments from the crowd.',
-    metric: '3.4M',
-    metricLabel: 'Organic Views',
-    client: 'Nightlife Culture',
-    category: 'Social Media',
-    tags: ['Top Rated', 'High Engagement'],
-    image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=800&q=80',
+    title: 'Food photography - Menu',
+    description: 'High-end commercial food photography capturing rich textures and culinary details for premium dining menus.',
+    metric: '70+',
+    metricLabel: 'Assets Delivered',
+    client: 'Restaurant Partner',
+    category: 'Photography',
+    tags: ['Food Styling', 'Studio Lighting'],
+    image: img3, // Using 3.png as requested
     icon: Camera,
   },
   {
     id: '2',
-    title: 'Clubbers & Festival lovers',
-    description: 'Capture entire days through connected stories without losing the moment.',
-    metric: '+312%',
-    metricLabel: 'Growth',
-    client: 'Kinetics Apparel',
-    category: 'Campaign',
-    tags: ['Trending', '5 Day stay'],
-    image: 'https://images.unsplash.com/photo-1533174000273-70c7934b160b?auto=format&fit=crop&w=800&q=80',
-    icon: Zap,
+    title: 'Social Media Campaign',
+    description: 'Cohesive multi-channel content roadmap combining cinematic reels, curated graphics, and targeted advertising.',
+    metric: '3.4M',
+    metricLabel: 'Organic Views',
+    client: 'Lifestyle Brand',
+    category: 'Social Media',
+    tags: ['Meta Ads', 'Viral Growth'],
+    image: img1, // Using 1.png as requested
+    icon: Share2,
   },
   {
     id: '3',
-    title: 'Social Crews & Creators',
-    description: 'Share authentic nightlife content in real time, without pressure to be perfect.',
-    metric: '4.2x',
-    metricLabel: 'ROAS',
-    client: 'Orbix Studio',
-    category: 'Content',
-    tags: ['Creator Pick', 'Viral'],
-    image: 'https://images.unsplash.com/photo-1541532713592-79a0317b6b77?auto=format&fit=crop&w=800&q=80',
-    icon: Users,
+    title: 'Visual Identity',
+    description: 'Complete brand architecture including logo design, typography systems, and market positioning guidelines.',
+    metric: '100%',
+    metricLabel: 'Brand Cohesion',
+    client: 'Corporate Partner',
+    category: 'Branding',
+    tags: ['Logo Design', 'Brand Book'],
+    image: img2, // Using 2.png as requested
+    icon: Palette,
   },
 ];
 
@@ -50,21 +55,20 @@ export const ProofOfPromisesSection: React.FC = () => {
     <section id="proof-section" className="py-24 bg-[#f8f9fa] overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
         
-        {/* Header matching Image 1 */}
+        {/* Updated Header Section */}
         <div className="mb-16 space-y-4">
           <span className="inline-block px-4 py-1.5 text-xs font-semibold tracking-wider text-neutral-500 uppercase bg-white border border-neutral-200 rounded-full shadow-sm">
-            Audience Section
+            Case Studies
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold text-neutral-900 tracking-tight">
-            Built for Nightlife <br />
-            <span className="text-black">Culture</span>
+          <h2 className="text-4xl md:text-5xl font-bold text-neutral-900 tracking-tight font-display">
+            Proof of Promises
           </h2>
         </div>
 
         {/* Staggered 3-Column Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-center max-w-5xl mx-auto">
           {PROMISES_DATA.map((item, index) => {
-            // Stagger logic: Push the middle card down (or left/right cards up)
+            // Stagger logic: Push the middle card down
             const isMiddle = index === 1;
             const Icon = item.icon as any;
 
@@ -80,7 +84,7 @@ export const ProofOfPromisesSection: React.FC = () => {
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out bg-neutral-200"
                 />
                 
                 {/* Gradient to ensure bottom text box pops */}
@@ -104,7 +108,7 @@ export const ProofOfPromisesSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Modal matching Image 2 */}
+      {/* Modal Integration */}
       <ShowcaseModal 
         item={selectedItem} 
         isOpen={!!selectedItem} 
