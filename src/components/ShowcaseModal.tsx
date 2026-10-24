@@ -1,8 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { ProofItem } from '../types';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X } from 'lucide-react';
 
-// 1. Import your 10 local images for the slider
+// 1. Import Food Photography Images
+import food1 from '../assets/food1.png';
+import food2 from '../assets/food2.png';
+import food3 from '../assets/food3.png';
+import food4 from '../assets/food4.png';
+import food5 from '../assets/food5.png';
+import food6 from '../assets/food6.png';
+import food7 from '../assets/food7.png';
+import food8 from '../assets/food8.png';
+import food9 from '../assets/food9.png';
+import food10 from '../assets/food10.png';
+import food11 from '../assets/food11.png';
+
+// 2. Import Social Media Campaign Images
 import img01 from '../assets/01.png';
 import img02 from '../assets/02.png';
 import img03 from '../assets/03.png';
@@ -14,7 +27,18 @@ import img08 from '../assets/08.png';
 import img09 from '../assets/09.png';
 import img010 from '../assets/010.png';
 
-const SLIDER_IMAGES = [img01, img02, img03, img04, img05, img06, img07, img08, img09, img010];
+// 3. Import Visual Identity Images
+import hidden1 from '../assets/hidden1.png';
+import hidden2 from '../assets/hidden2.png';
+import hidden3 from '../assets/hidden3.png';
+import hidden4 from '../assets/hidden4.png';
+
+// 4. Map the images to the corresponding ProofItem IDs from your section
+const SLIDER_IMAGES_MAP: Record<string, string[]> = {
+  '1': [food1, food2, food3, food4, food5, food6, food7, food8, food9, food10, food11],
+  '2': [img01, img02, img03, img04, img05, img06, img07, img08, img09, img010],
+  '3': [hidden1, hidden2, hidden3, hidden4],
+};
 
 interface ShowcaseModalProps {
   item: ProofItem | null;
@@ -25,30 +49,33 @@ interface ShowcaseModalProps {
 export const ShowcaseModal: React.FC<ShowcaseModalProps> = ({ item, isOpen, onClose }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Reset slider when modal opens
+  // Get the correct array of images for the clicked item (fallback to empty array if none)
+  const currentImages = item ? SLIDER_IMAGES_MAP[item.id] || [] : [];
+
+  // Reset slider to the first image whenever the modal opens or the item changes
   useEffect(() => {
     if (isOpen) setCurrentIndex(0);
-  }, [isOpen]);
+  }, [isOpen, item]);
 
   if (!isOpen || !item) return null;
 
   const handleNext = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setCurrentIndex((prev) => (prev + 1) % SLIDER_IMAGES.length);
+    setCurrentIndex((prev) => (prev + 1) % currentImages.length);
   };
 
   const handlePrev = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setCurrentIndex((prev) => (prev === 0 ? SLIDER_IMAGES.length - 1 : prev - 1));
+    setCurrentIndex((prev) => (prev === 0 ? currentImages.length - 1 : prev - 1));
   };
 
   return (
     // Backdrop
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-in fade-in duration-200"
       onClick={onClose}
     >
-      {/* App-like Card Container (matches Image 2 perfectly) */}
+      {/* App-like Card Container */}
       <div 
         className="relative w-full max-w-[380px] bg-[#3e4433] rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col"
         onClick={(e) => e.stopPropagation()} // Prevent clicks inside from closing modal
@@ -69,7 +96,7 @@ export const ShowcaseModal: React.FC<ShowcaseModalProps> = ({ item, isOpen, onCl
             className="flex w-full h-full transition-transform duration-500 ease-out"
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           >
-            {SLIDER_IMAGES.map((src, idx) => (
+            {currentImages.map((src, idx) => (
               <img 
                 key={idx}
                 src={src} 
@@ -86,9 +113,9 @@ export const ShowcaseModal: React.FC<ShowcaseModalProps> = ({ item, isOpen, onCl
           {/* Gradient Overlay (Fades image into the olive background color) */}
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#3e4433] pointer-events-none z-10" />
 
-          {/* Pagination Dots matching Image 2 */}
+          {/* Pagination Dots */}
           <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-1.5 z-20 pointer-events-none">
-            {SLIDER_IMAGES.map((_, idx) => (
+            {currentImages.map((_, idx) => (
               <div 
                 key={idx} 
                 className={`h-1.5 rounded-full transition-all duration-300 ${
@@ -132,7 +159,7 @@ export const ShowcaseModal: React.FC<ShowcaseModalProps> = ({ item, isOpen, onCl
           {/* Large CTA Button */}
           <button 
             onClick={onClose}
-            className="w-full mt-2 py-4 bg-white text-black rounded-full font-bold text-[15px] hover:bg-gray-100 active:scale-[0.98] transition-all"
+            className="w-full mt-2 py-4 bg-white text-black rounded-full font-bold text-[15px] hover:bg-gray-100 active:scale-[0.98] transition-all cursor-pointer"
           >
             Explore Case Study
           </button>
